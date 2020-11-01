@@ -25,6 +25,9 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
 
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
     "traceResolution": false,
     "listEmittedFiles": false,
     "listFiles": false,
@@ -32,7 +35,7 @@
 
     "lib": ["es2017"],
     "types": ["node"],
-    "typeRoots": ["node_modules/@types", "src/types"]
+    "typeRoots": ["node_modules/@types", "src/@types"]
   },
   "include": ["./src/"],
   "exclude": ["node_modules/**"],

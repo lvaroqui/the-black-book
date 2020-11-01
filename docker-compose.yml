@@ -1,0 +1,35 @@
+version: "3.1"
+
+services:
+  back:
+    image: node:12
+    environment:
+      YARN_CACHE_FOLDER: /opt/yarn-cache
+    volumes:
+      - ./back:/opt/back
+      - yarn-cache:/opt/yarn-cache
+    working_dir: /opt/back
+    entrypoint: ./entrypoint.sh
+    command: yarn run dev
+    depends_on:
+      - "db"
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: root
+
+  nginx:
+    image: foxylion/nginx-self-signed-https:latest
+    environment:
+      REMOTE_URL: http://back:3001
+    depends_on:
+      - "back"
+    ports:
+      - 443:443
+
+volumes:
+  yarn-cache:
