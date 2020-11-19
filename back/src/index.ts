@@ -1,23 +1,37 @@
+import { ApolloServer } from 'apollo-server-koa';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import helmet from 'koa-helmet';
 import { createConnection } from 'typeorm';
 
-import router from './routers';
+// import { authenticate } from './controller/auth-controller';
+import resolvers from './resolver';
+import AuthRouter from './router/AuthRouter';
+import typeDefs from './schema';
 
 (async function () {
   await createConnection();
 })();
 
 const app = new Koa();
-
 app.proxy = true;
 
-app.use(helmet());
+if (app.env != 'development') {
+  app.use(helmet());
+}
 
 app.use(bodyParser());
 
-app.use(router.routes());
-app.use(router.allowedMethods());
+// Authentication
+app.use(AuthRouter.routes());
+app.use(AuthRouter.allowedMethods());
 
-app.listen(3001);
+// app.use(authenticate);
+
+// GraphQL
+const server = new ApolloServer({ typeDefs, resolvers: resolvers as any });
+app.use(server.getMiddleware({ path: '/graphql' }));
+
+app.listen(3001, async () => {
+  console.log('Listening on port 3001');
+});

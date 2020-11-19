@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 
-import { login, register } from '../controllers/auth-controller';
+import { login, register } from '../controller/AuthController';
 
 const router = new Router({ prefix: '/auth' });
 

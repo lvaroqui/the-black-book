@@ -17,7 +17,6 @@ export const register: Middleware = async (ctx, _next) => {
   user.email = ctx.request.body.email;
   user.username = ctx.request.body.username;
   user.passwordHash = await hashPassword(ctx.request.body.password);
-  console.log(user.email, user.username);
   await userRepository().save(user);
 
   ctx.status = 200;
