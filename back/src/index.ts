@@ -4,9 +4,8 @@ import bodyParser from 'koa-bodyparser';
 import helmet from 'koa-helmet';
 import { createConnection } from 'typeorm';
 
-// import { authenticate } from './controller/auth-controller';
 import resolvers from './resolver';
-import AuthRouter from './router/AuthRouter';
+import { authenticate } from './resolver/UserResolver';
 import typeDefs from './schema';
 
 (async function () {
@@ -22,14 +21,15 @@ if (app.env != 'development') {
 
 app.use(bodyParser());
 
-// Authentication
-app.use(AuthRouter.routes());
-app.use(AuthRouter.allowedMethods());
-
-// app.use(authenticate);
+app.use(authenticate);
 
 // GraphQL
-const server = new ApolloServer({ typeDefs, resolvers: resolvers as any });
+const server = new ApolloServer({
+  typeDefs,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  resolvers: resolvers as any,
+  context: ({ ctx }) => ({ ctx }),
+});
 app.use(server.getMiddleware({ path: '/graphql' }));
 
 app.listen(3001, async () => {

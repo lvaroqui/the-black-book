@@ -8,12 +8,14 @@ export default class User {
   @Column({
     length: 40,
     nullable: false,
+    unique: true,
   })
   email!: string;
 
   @Column({
     length: 30,
     nullable: false,
+    unique: true,
   })
   username!: string;
 

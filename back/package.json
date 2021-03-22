@@ -27,6 +27,7 @@
     "apollo-server": "^2.19.0",
     "apollo-server-koa": "^2.19.0",
     "bcrypt": "^5.0.0",
+    "email-validator": "^2.0.4",
     "graphql": "^14.7.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.0",
@@ -38,6 +39,7 @@
     "typeorm": "^0.2.29"
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^2.0.2",
     "@graphql-codegen/cli": "1.19.2",
     "@graphql-codegen/introspection": "1.18.0",
     "@graphql-codegen/typescript": "1.17.11",
