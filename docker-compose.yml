@@ -33,5 +33,20 @@ services:
     ports:
       - 443:443
 
+  front:
+    image: node:12
+    environment:
+      YARN_CACHE_FOLDER: /opt/yarn-cache
+    volumes:
+      - ./front:/opt/front
+      - yarn-cache:/opt/yarn-cache
+    working_dir: /opt/front
+    entrypoint: ./entrypoint.sh
+    command: yarn dev
+    ports:
+      - 3000:3000
+    depends_on:
+      - "db"
+
 volumes:
   yarn-cache:
