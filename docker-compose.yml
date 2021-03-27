@@ -11,10 +11,8 @@ services:
     working_dir: /opt/back
     entrypoint: ./entrypoint.sh
     command: yarn run dev
-    ports:
-      - 3001:3001
     depends_on:
-      - "db"
+      - db
 
   db:
     image: postgres
@@ -23,15 +21,6 @@ services:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: root
-
-  nginx:
-    image: foxylion/nginx-self-signed-https:latest
-    environment:
-      REMOTE_URL: http://back:3001
-    depends_on:
-      - "back"
-    ports:
-      - 443:443
 
   front:
     image: node:12
@@ -43,10 +32,17 @@ services:
     working_dir: /opt/front
     entrypoint: ./entrypoint.sh
     command: yarn dev
-    ports:
-      - 3000:3000
     depends_on:
       - "db"
+
+  nginx:
+    build: nginx-dev
+    depends_on:
+      - front
+      - back
+    ports:
+      - 443:443
+      - 80:80
 
 volumes:
   yarn-cache:
