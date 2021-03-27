@@ -14,11 +14,3 @@ generates:
     config:
       maybeValue: T | null | undefined
       contextType: "{ ctx: ParameterizedContext<any, { user: User }> }"
-  src/generated/graphql-client.ts:
-    plugins:
-      - add:
-          content:
-            - "/* eslint-disable */"
-      - "typescript"
-    config:
-      maybeValue: T | null | undefined
