@@ -3993,6 +3993,11 @@ pify@^3.0.0:
   resolved "https://registry.yarnpkg.com/pify/-/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
   integrity sha1-5aSs0sEB/fPZpNB/DbxNtJ3SgXY=
 
+pinia@^2.0.0-alpha.7:
+  version "2.0.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.0-alpha.7.tgz#3b55af0185a45e6e1a75ba90f6da3e1a61623767"
+  integrity sha512-IXPG+4elwC+0h5r3FZUhcH+XwywMN+f9uxoMxzapz5ywBfo7BeE48wpC1o+81qnil5m3FhBOjMKZeS7t0t6ljw==
+
 postcss-modules-extract-imports@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/postcss-modules-extract-imports/-/postcss-modules-extract-imports-3.0.0.tgz#cda1f047c0ae80c97dbe28c3e76a43b88025741d"

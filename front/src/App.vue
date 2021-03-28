@@ -1,18 +1,20 @@
 <template>
   <div>
     <button @click="login">Login</button>
-    <p>Username: {{ username }}</p>
+    <p v-if="user">Username: {{ user.username }}</p>
+    <p v-else>Not connected</p>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent } from "vue";
 import sdk from "./sdk";
+import { useAuthStore } from "./store/auth";
 
 export default defineComponent({
   name: "App",
   setup() {
-    const username = ref("");
+    const authStore = useAuthStore();
 
     const login = () => {
       sdk
@@ -22,13 +24,13 @@ export default defineComponent({
         })
         .then((data) => {
           if (data.login) {
-            username.value = data.login.username;
+            authStore.user = data.login;
           }
         });
     };
 
     return {
-      username,
+      user: computed(() => authStore.user),
       login,
     };
   },
