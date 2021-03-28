@@ -58,6 +58,7 @@ const UserResolver: Resolvers = {
       await userRepository().save(user);
       return user;
     },
+
     login: async (_, { email, password }, { ctx }) => {
       // Check user
       const user = await userRepository().findOne({
@@ -83,6 +84,11 @@ const UserResolver: Resolvers = {
       ctx.status = 200;
 
       return user;
+    },
+
+    logout: async (_0, _1, { ctx }) => {
+      ctx.cookies.set('Authorization');
+      return true;
     },
   },
 };

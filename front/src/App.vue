@@ -1,40 +1,21 @@
 <template>
-  <div>
-    <button @click="login">Login</button>
-    <p v-if="user">Username: {{ user.username }}</p>
-    <p v-else>Not connected</p>
-  </div>
+  <router-view />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { defineComponent } from "vue";
 import sdk from "./sdk";
 import { useAuthStore } from "./store/auth";
 
 export default defineComponent({
   name: "App",
   setup() {
-    const authStore = useAuthStore();
-
-    const login = () => {
-      sdk
-        .login({
-          email: "luc@varoqui.org",
-          password: "azerty",
-        })
-        .then((data) => {
-          if (data.login) {
-            authStore.user = data.login;
-          }
-        });
-    };
-
-    return {
-      user: computed(() => authStore.user),
-      login,
-    };
+    // Check if user is connected
+    sdk.me().then((data) => {
+      if (data.me) {
+        useAuthStore().user = data.me;
+      }
+    });
   },
 });
 </script>
-
-<style></style>

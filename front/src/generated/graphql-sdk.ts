@@ -25,6 +25,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   register?: Maybe<User>;
   login?: Maybe<User>;
+  logout?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -53,6 +54,11 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type UserFieldsFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'email' | 'username'>
+);
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -67,9 +73,23 @@ export type LoginMutation = (
   )> }
 );
 
-export type UserFieldsFragment = (
-  { __typename?: 'User' }
-  & Pick<User, 'id' | 'email' | 'username'>
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & UserFieldsFragment
+  )> }
+);
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'logout'>
 );
 
 export const UserFieldsFragmentDoc = gql`
@@ -86,6 +106,18 @@ export const LoginDocument = gql`
   }
 }
     ${UserFieldsFragmentDoc}`;
+export const MeDocument = gql`
+    query me {
+  me {
+    ...UserFields
+  }
+}
+    ${UserFieldsFragmentDoc}`;
+export const LogoutDocument = gql`
+    mutation logout {
+  logout
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>;
 
@@ -95,6 +127,12 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     login(variables: LoginMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LoginMutation> {
       return withWrapper(() => client.request<LoginMutation>(LoginDocument, variables, requestHeaders));
+    },
+    me(variables?: MeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<MeQuery> {
+      return withWrapper(() => client.request<MeQuery>(MeDocument, variables, requestHeaders));
+    },
+    logout(variables?: LogoutMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LogoutMutation> {
+      return withWrapper(() => client.request<LogoutMutation>(LogoutDocument, variables, requestHeaders));
     }
   };
 }

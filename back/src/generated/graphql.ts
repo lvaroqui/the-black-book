@@ -17,6 +17,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   register?: Maybe<User>;
   login?: Maybe<User>;
+  logout?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -143,6 +144,7 @@ export type ResolversParentTypes = {
 export type MutationResolvers<ContextType = { ctx: ParameterizedContext<any, { user: User }> }, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   register?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationRegisterArgs, 'email' | 'username' | 'password'>>;
   login?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
+  logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = { ctx: ParameterizedContext<any, { user: User }> }, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
